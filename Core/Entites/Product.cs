@@ -1,4 +1,4 @@
-﻿namespace API.Entites;
+﻿namespace Core.Entites;
 
 public class Product
 {
