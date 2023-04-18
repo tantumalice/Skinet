@@ -10,7 +10,6 @@ var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnec
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(defaultConnection));
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddLogging();
 
