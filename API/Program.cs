@@ -27,7 +27,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddLogging();
 builder.Services.AddApplicationServices();
-builder.Services.AddIdentityServices();
+builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCors(opt =>
 {
@@ -83,6 +83,7 @@ app.UseRouting();
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
