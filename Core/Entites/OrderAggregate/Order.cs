@@ -1,4 +1,6 @@
-﻿namespace Core.Entites.OrderAggregate;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Core.Entites.OrderAggregate;
 
 public class Order : BaseEntity
 {
