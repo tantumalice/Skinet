@@ -11,20 +11,12 @@ namespace API.Controllers;
 
 public class ProductsController : BaseApiController
 {
-    private readonly IGenericRepository<Product> _productsRepo;
-    private readonly IGenericRepository<ProductBrand> _productBrandRepo;
-    private readonly IGenericRepository<ProductType> _productTypeRepo;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public ProductsController(
-        IGenericRepository<Product> productsRepo,
-        IGenericRepository<ProductBrand> productBrandRepo,
-        IGenericRepository<ProductType> productTypeRepo,
-        IMapper mapper)
+    public ProductsController(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        _productsRepo = productsRepo;
-        _productBrandRepo = productBrandRepo;
-        _productTypeRepo = productTypeRepo;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
@@ -35,8 +27,8 @@ public class ProductsController : BaseApiController
         var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
         var countSpec = new ProductWithFiltersForCountSpecification(productParams);
 
-        var totalItems = await _productsRepo.CountAsync(countSpec);
-        var products = await _productsRepo.ListAsync(spec);
+        var totalItems = await _unitOfWork.Repository<Product>().CountAsync(countSpec);
+        var products = await _unitOfWork.Repository<Product>().ListAsync(spec);
 
         var data = _mapper
             .Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
@@ -51,7 +43,7 @@ public class ProductsController : BaseApiController
     public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
     {
         var spec = new ProductsWithTypesAndBrandsSpecification(id);
-        var product = await _productsRepo.GetEntityWithSpec(spec);
+        var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(spec);
 
         if (product == null)
         {
@@ -64,12 +56,12 @@ public class ProductsController : BaseApiController
     [HttpGet("brands")]
     public async Task<ActionResult<List<ProductBrand>>> GetBrands()
     {
-        return Ok(await _productBrandRepo.ListAllAsync());
+        return Ok(await _unitOfWork.Repository<ProductBrand>().ListAllAsync());
     }
 
     [HttpGet("types")]
     public async Task<ActionResult<List<ProductType>>> GetTypes()
     {
-        return Ok(await _productTypeRepo.ListAllAsync());
+        return Ok(await _unitOfWork.Repository<ProductType>().ListAllAsync());
     }
 }
