@@ -1,4 +1,4 @@
-﻿using Core.Identity;
+﻿using Core.Entites.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;

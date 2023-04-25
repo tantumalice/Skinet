@@ -1,4 +1,5 @@
 ﻿using Core.Entites;
+using Core.Entites.OrderAggregate;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
@@ -51,8 +52,22 @@ public class StoreContextSeed
                 }
                 await context.SaveChangesAsync();
             }
+
+            if (!context.DeliveryMethods.Any())
+            {
+                var dmData =
+                    await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/delivery.json");
+                var deliveryMethods =
+                    JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
+
+                foreach (var item in deliveryMethods)
+                {
+                    context.DeliveryMethods.Add(item);
+                }
+                await context.SaveChangesAsync();
+            }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             var logger = loggerFactory.CreateLogger<StoreContextSeed>();
             logger.LogError(ex.Message);
