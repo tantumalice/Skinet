@@ -50,7 +50,6 @@ public class PaymentsController : BaseApiController
                 _logger.LogInformation($"Payment failed: {intent.Id}");
                 order = await _paymentService.UpdateOrderPaymentFailed(intent.Id);
                 _logger.LogInformation($"Order updated to payment failed: {order.Id}");
-                // TODO update order status
                 break;
         }
         return new EmptyResult();
