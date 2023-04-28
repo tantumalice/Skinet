@@ -1,6 +1,7 @@
 ﻿using Core.Entites;
 using Core.Entites.OrderAggregate;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Infrastructure.Data;
@@ -11,10 +12,12 @@ public class StoreContextSeed
     {
         try
         {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
             if (!context.ProductBrands.Any())
             {
                 var brandsData =
-                    await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/brands.json");
+                    await File.ReadAllTextAsync(path + @"/Data/SeedData/brands.json");
                 var brands =
                     JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
@@ -28,7 +31,7 @@ public class StoreContextSeed
             if (!context.ProductTypes.Any())
             {
                 var typesData =
-                    await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/types.json");
+                    await File.ReadAllTextAsync(path + @"/Data/SeedData/types.json");
                 var types =
                     JsonSerializer.Deserialize<List<ProductType>>(typesData);
 
@@ -42,7 +45,7 @@ public class StoreContextSeed
             if (!context.Products.Any())
             {
                 var productsData =
-                    await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/products.json");
+                    await File.ReadAllTextAsync(path + @"/Data/SeedData/products.json");
                 var products =
                     JsonSerializer.Deserialize<List<Product>>(productsData);
 
@@ -56,7 +59,7 @@ public class StoreContextSeed
             if (!context.DeliveryMethods.Any())
             {
                 var dmData =
-                    await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/delivery.json");
+                    await File.ReadAllTextAsync(path + @"/Data/SeedData/delivery.json");
                 var deliveryMethods =
                     JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
 
