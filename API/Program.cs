@@ -17,8 +17,10 @@ var identityConnection = builder.Configuration.GetConnectionString("IdentityConn
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppIdentityDbContext>(x => x.UseSqlite(identityConnection));
-builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(defaultConnection));
+//builder.Services.AddDbContext<AppIdentityDbContext>(x => x.UseSqlite(identityConnection));
+//builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(defaultConnection));
+builder.Services.AddDbContext<AppIdentityDbContext>(x => x.UseNpgsql(identityConnection));
+builder.Services.AddDbContext<StoreContext>(x => x.UseNpgsql(defaultConnection));
 builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 {
     var configuration = ConfigurationOptions.Parse(redisConnection, true);
