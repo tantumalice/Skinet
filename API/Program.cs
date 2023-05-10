@@ -7,12 +7,30 @@ using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
+using System.Reflection;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 var redisConnection = builder.Configuration.GetConnectionString("RedisConnection");
 var identityConnection = builder.Configuration.GetConnectionString("IdentityConnection");
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console()
+    .WriteTo.Elasticsearch(
+        new ElasticsearchSinkOptions(
+            new Uri(builder.Configuration["ElasticSearch:Uri"]))
+        {
+            AutoRegisterTemplate = true,
+            AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+            IndexFormat =
+                $"{Assembly.GetExecutingAssembly().GetName().Name!.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+        })
+    );
 
 // Add services to the container.
 
@@ -25,7 +43,6 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
     return ConnectionMultiplexer.Connect(configuration);
 });
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
-builder.Services.AddLogging();
 builder.Services.AddApplicationServices();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
