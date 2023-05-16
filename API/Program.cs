@@ -10,7 +10,6 @@ using StackExchange.Redis;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
-using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -106,3 +105,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

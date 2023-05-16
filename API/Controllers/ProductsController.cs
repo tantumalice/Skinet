@@ -22,7 +22,7 @@ public class ProductsController : BaseApiController
 
     [HttpGet]
     [Cached(600)]
-    public async Task<ActionResult<List<Pagination<ProductToReturnDto>>>> GetProducts(
+    public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
         [FromQuery] ProductSpecParams productParams)
     {
         var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
