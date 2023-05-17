@@ -1,19 +1,15 @@
 using API.DTO;
 using API.Helpers;
-using Core.Entites;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System.Collections.Generic;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace IntegrationTests
 {
-    public class GetItemsTests : IClassFixture<TestFactory<Program>>
+    public class GetProductsTest : IClassFixture<TestFactory<Program>>
     {
         private readonly WebApplicationFactory<Program> _factory;
 
-        public GetItemsTests(TestFactory<Program> factory)
+        public GetProductsTest(TestFactory<Program> factory)
         {
             _factory = factory;
         }
