@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <section class="col-2">
+        <section class="col-3">
             <h5 class="text-warning ms-3">Sort</h5>
             <select class="custom-select mb-3">
                 <option>Alphabetical</option>
@@ -26,7 +26,7 @@
             </ul>
         </section>
 
-        <section class="col-10">
+        <section class="col-9">
             <div class="d-flex flex-row justify-content-between align-items-center pb-2">
                 <header>
                     <span>
@@ -40,8 +40,8 @@
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col-4" *ngFor="let product of products">
-                    <app-product-item></app-product-item>
+                <div class="col-4 mb-4" *ngFor="let product of products">
+                    <app-product-item [product]="product"></app-product-item>
                 </div>
             </div>
         </section>
