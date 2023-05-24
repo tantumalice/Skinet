@@ -3,15 +3,14 @@
   <img src="/assets/images/logo.png" style="max-height:70px;" alt="logo" class="logo" routerLink="/">
 
   <nav class="my-2 my-0 me-md-3 text-uppercase" style="font-size: larger;">
-    <a class="p-2" routerLink="/" routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a class="p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
     <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
     <a class="p-2" routerLink="/test-error" routerLinkActive="active">Errors</a>
   </nav>
   <div class="d-flex align-items center">
     <a class="position-relative" routerLink="/basket">
       <i class="fa fa-shopping-cart fa-2x me-5 my-2 text-dark"></i>
-      <div class="cart-no">5</div>
+      <div *ngIf="(basket$ | async) as basket" class="cart-no">{{basket.items.length}}</div>
     </a>
     <a class="btn btn-outline-secondary me-2 my-2">Login</a>
     <a class="btn btn-outline-secondary me-3 my-2">Sign up</a>
